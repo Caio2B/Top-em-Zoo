@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def calcular_estatisticas():
+    n = int(input("Quantos dias de observação? "))
+    dados = []
+    dias = []
+    for i in range(n):
+        valor = float(input(f"Digite a contagem de bactérias no dia {i+1}: "))
+        dados.append(valor)
+        dias.append(i+1)
+    dados = np.array(dados)
+    media = np.mean(dados)
+    variancia = np.var(dados, ddof=0)  # ddof=0 para população inteira
+    desvio_padrao = np.std(dados, ddof=0)
+    coef_variacao = (desvio_padrao / media) * 100  # CV em porcentagem
+
+    crescimento_percentual = np.mean([(dados[i] - dados[i-1]) / dados[i-1] * 100 for i in range(1, n)])
+
+    print("\n=== Resultados Estatísticos ===")
+    print(f"Média do crescimento bacteriano: {media:.2f}")
+    print(f"Variância da população: {variancia:.2f}")
+    print(f"Desvio padrão: {desvio_padrao:.2f}")
+    print(f"Coeficiente de variação (CV): {coef_variacao:.2f}%")
+    print(f"Crescimento médio percentual diário: {crescimento_percentual:.2f}%")
+
+    plt.plot(dias, dados, 'bo')
+    plt.xlabel('dias')
+    plt.ylabel('população de bactérias')
+    plt.show()
+
+calcular_estatisticas()
